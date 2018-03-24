@@ -14,6 +14,7 @@ ENV = Environment(
 class TemplateHandler(tornado.web.RequestHandler):
   def render_template (self, tpl, context):
     template = ENV.get_template(tpl)
+    context['page'] = self.request.path
     self.write(template.render(**context))
 
 class MainHandler(TemplateHandler):
@@ -21,24 +22,21 @@ class MainHandler(TemplateHandler):
     self.set_header(
       'Cache-Control',
       'no-store, no-cache, must-revalidate, max-age=0')
-    name = self.get_query_argument('name', 'Nobody')
-    amount = self.get_query_argument('amount', '0')
-    amount = float(amount)
-    amount = amount * 1.15
-    
-    context = {
-        'name': name,
-        'users': ['Julian', 'Johnny'],
-        'amount': amount
-    }
-    self.render_template("home.html", context)
+    self.render_template("home.html", {})
 
 class Page2Handler(TemplateHandler):
   def get(self):
     self.set_header(
       'Cache-Control',
       'no-store, no-cache, must-revalidate, max-age=0')
-    self.render_template("page2.html", {})
+    self.render_template("products.html", {})
+    
+class Page3Handler(TemplateHandler):
+  def get(self):
+    self.set_header(
+      'Cache-Control',
+      'no-store, no-cache, must-revalidate, max-age =0')
+    self.render_template("company.html", {})
     
 def make_app():
   return tornado.web.Application([

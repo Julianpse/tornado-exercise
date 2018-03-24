@@ -23,13 +23,13 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item{% if page == "/" %} active{% endif %}">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Products</a>
+        <li class="nav-item{% if page == "/page2" %} active{% endif %}">
+          <a class="nav-link" href="/page2">Products</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item{% if page == "/page3" %} active{% endif %}">
           <a class="nav-link" href="#">Company</a>
         </li>
         <li class="nav-item">
@@ -44,14 +44,10 @@
     <h1 class="display-4">We Are Awesome</h1>
   </div>
 
-  <!-- Awesomeness Section 1 -->
-  <section class="section-1">
-    <div class="container-fluid">
-      <h2>Awesomeness</h2>
-      <br>
-      {% block content %}{% endblock %}
-    </div>
-  </section>
+<!--Top content --> 
+  {% block content %}
+  {% endblock %}
+  
   <!--Awesomeness Section 2 -->
   <section class="section-2">
     <div class="container-fluid">
