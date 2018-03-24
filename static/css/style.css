@@ -1,0 +1,31 @@
+  .jumbotron {
+    text-align: center;
+  }
+
+  .section-1 {
+    background-color: #89d1ce;
+    margin-top: -35px;
+    padding-bottom: 40px;
+  }
+
+  .section-2 {
+    background-color: gray;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  .footer {
+    position: fixed;
+    margin-top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #D3D3D3;
+    height: 60px;
+    text-align: center;
+  }
