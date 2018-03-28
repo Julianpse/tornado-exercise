@@ -1,7 +1,16 @@
 import tornado.ioloop
 import tornado.web
 import tornado.log
+
 import os
+import boto3
+
+client = boto3.client(
+  'ses',
+  region_name = 'us-east-1',
+  aws_access_key_id = 'AKIAIVDPAKCKT3CTLUSQ',
+  aws_secret_access_key='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'
+)
 
 from jinja2 import \
 Environment, PackageLoader, select_autoescape
@@ -30,18 +39,59 @@ class Page2Handler(TemplateHandler):
       'Cache-Control',
       'no-store, no-cache, must-revalidate, max-age=0')
     self.render_template("products.html", {})
+
+def send_email(email,first_name,last_name,message):
+  response = client.send_email(
+      Destination={
+        'ToAddresses': ['julianpse@gmail.com'],
+      },
+      Message={
+      'Body': {
+        'Text': {
+          'Charset': 'UTF-8',
+          'Data': '{} {}wants to talk to you\n\n{} {}'.format(first_name,last_name,email,message),
+        },
+      },
+      'Subject': {'Charset': 'UTF-8', 'Data': 'Test email'},
+    },
+      Source='julianpse@gmail.com',
+    )
     
-class Page3Handler(TemplateHandler):
+class ContactHandler(TemplateHandler):
+  def get(self):
+    self.set_header(
+      'Cache-Control',
+      'no-store, no-cache, must-revalidate, max-age=0')
+    self.render_template("contact.html", {})
+    
+  def post(self):
+    email = self.get_body_argument('email')
+    first_name = self.get_body_argument('first_name')
+    last_name = self.get_body_argument('last_name')
+    message = self.get_body_argument('message')
+    
+    if email:
+      print("IT WORKED")
+      send_email(email,first_name,last_name,message)
+      self.redirect("/success")
+      
+    else:
+      error = "PUT YOUR EMAIL IN"
+      
+class SuccessHandler(TemplateHandler):
   def get(self):
     self.set_header(
       'Cache-Control',
       'no-store, no-cache, must-revalidate, max-age =0')
-    self.render_template("company.html", {})
+    self.render_template("success.html", {})
     
+   
 def make_app():
   return tornado.web.Application([
     (r"/", MainHandler),
     (r"/page2", Page2Handler),
+    (r"/contact", ContactHandler),
+    (r"/success", SuccessHandler),
     (
       r"/static/(.*)",
       tornado.web.StaticFileHandler,
