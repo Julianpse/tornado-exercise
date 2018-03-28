@@ -49,7 +49,7 @@ def send_email(email,first_name,last_name,message):
       'Body': {
         'Text': {
           'Charset': 'UTF-8',
-          'Data': '{} {}wants to talk to you\n\n{} {}'.format(first_name,last_name,email,message),
+          'Data': '{} {} has sent you a new message\n\nEmail: {} \nMessage: {}'.format(first_name,last_name,email,message),
         },
       },
       'Subject': {'Charset': 'UTF-8', 'Data': 'Test email'},
