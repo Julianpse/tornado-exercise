@@ -8,8 +8,9 @@ import boto3
 client = boto3.client(
   'ses',
   region_name = 'us-east-1',
-  aws_access_key_id = 'AKIAIVDPAKCKT3CTLUSQ',
-  aws_secret_access_key='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'
+  aws_access_key_id=os.environ.get('AWS_ACCESS_KEY'),
+  aws_secret_access_key=os.environ.get('AWS_SECRET_KEY')
+
 )
 
 from jinja2 import \
