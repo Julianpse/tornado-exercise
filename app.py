@@ -10,7 +10,6 @@ client = boto3.client(
   region_name = 'us-east-1',
   aws_access_key_id=os.environ.get('AWS_ACCESS_KEY'),
   aws_secret_access_key=os.environ.get('AWS_SECRET_KEY')
-
 )
 
 from jinja2 import \
@@ -50,10 +49,10 @@ def send_email(email,first_name,last_name,message):
       'Body': {
         'Text': {
           'Charset': 'UTF-8',
-          'Data': '{} {} has sent you a new message\n\nEmail: {} \nMessage: {}'.format(first_name,last_name,email,message),
+          'Data': '{} {} has sent you a new message\n\nName: {} {}\n Email: {} \nMessage: {}'.format(first_name,last_name,first_name,last_name,email,message),
         },
       },
-      'Subject': {'Charset': 'UTF-8', 'Data': 'Test email'},
+      'Subject': {'Charset': 'UTF-8', 'Data': 'You have a new message from your contact form'},
     },
       Source='julianpse@gmail.com',
     )
